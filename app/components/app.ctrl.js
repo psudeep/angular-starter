@@ -21,12 +21,34 @@
                 $scope.getData();
             }
         ])
-        .controller('AuthController', ['$scope', '$http',
+        .controller('AuthController', ['$scope','ngToast', '$http',
             function($scope, $http) {
                 console.log("Hello")
                 $scope.title = "Prashant";
 
-
+                $scope.login = function() {
+                    var data = {username: $scope.name, password: $scope.password };
+                    console.log(data);
+                    var req = {
+                     method: 'POST',
+                     url: 'http://localhost:8081/v1/auth/login',
+                     headers: {
+                       'Content-Type': 'application/json',
+                       'Method': 'json'
+                     },
+                     data: data
+                    };
+                    $http(req);
+                    ngToast.create('a toast message...');
+                    // $http.post("http://localhost:8081/v1/auth/login", data, {
+                    //     headers: { 'Content-Type': 'application/json','Method': 'json'},
+                    //     transformRequest: transform
+                    // }).success(function(responseData) {
+                    //     //do stuff with response
+                    //     console.log(responseData);
+                    // });
+                }
+                $scope.login();
             }
         ]);
 })(window.angular);
